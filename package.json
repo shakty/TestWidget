@@ -1,0 +1,8 @@
+{
+    "name": "TestWidget",
+    "version": "0.0.1",
+    "description": "What are you building?",
+    "author": "Samy <sammuell@mail.uni-mannheim.de>",
+    "license": "MIT/X11",
+    "homepage": "http://nodegame.org"
+}
