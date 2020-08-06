@@ -42,7 +42,14 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
     });
 
     stager.extendStep('Bomb', {
-        frame: 'index.html'
+        frame: 'end.htm',
+        cb: function() {
+          var root = W.getElementById('container');
+          // Integrating a custom widget.
+          var options = {};
+          var customWidget = new BombRisk(options);
+          node.widgets.append(customWidget, root);
+        }
     });
 
 

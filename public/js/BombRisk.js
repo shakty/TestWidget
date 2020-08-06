@@ -6,7 +6,7 @@
  *
  */
 
-(function(node) {  /
+(function(node) {
 
     // Register the widget in the widgets collection
     // (will be stored at node.widgets.widgets).
@@ -24,14 +24,14 @@
     BombRisk.className = 'bombrisk';
 
     // Text
-    BombRisk.texts.mainText = 'Below you see 100 black boxes. '+
+  /*  BombRisk.texts.mainText = 'Below you see 100 black boxes. '+
       '<strong>In one of these boxes there is a bomb.</strong> ' +
         'You have to decide how many boxes you want to open.' +
         ' <strong>Each box contains 1 ECU</strong>. ' +
         'You will get the sum of all ECU that were in the boxes you opened. ' +
         'However, if you <strong>open the box with the bomb, ' +
         'you get nothing</strong>. '+
-        '<strong> How many boxes do you want to open?</strong>';
+        '<strong> How many boxes do you want to open?</strong>';*/
 
     // Dependencies are checked when the widget is created.
     BombRisk.dependencies = { JSUS: {} };
@@ -42,19 +42,19 @@
         // You can define widget properties here,
         // but they should get assigned a value in init.
 
-        this.mainText = null;
+    /*    this.mainText = null;
 
         this.method= 'Bomb';
 
         this.gauge = null;
 
 
-        this.addMethod('Bomb', bomb);
+        this.addMethod('Bomb', bomb);*/
 
     }
 
     BombRisk.prototype.init = function(options) {
-      var gauge;
+    /*  var gauge;
       if ('undefined' !== typeof opts.method) {
           if ('string' !== typeof opts.method) {
               throw new TypeError('BombRisk.init: method must be string ' +
@@ -94,7 +94,7 @@
 
       this.on('unhighlighted', function() {
           gauge.unhighlight();
-      });
+      });*/
        // Init widget variables, but do not create
        // HTML elements, they should be created in append.
 
@@ -117,8 +117,10 @@
         //   - footerDiv:  the footer container
         //
         this.button = document.createElement('button');
-        this.button.onclick = function() { ... };
-        this.bodyDiv.appendChild(this.button);
+       this.button.onclick = function() {
+         // Do something.
+       };
+       this.bodyDiv.appendChild(this.button);
     };
 
     // Implements the Widget.listeners method (optional).
@@ -126,7 +128,9 @@
         // Listeners added here using `node.on`
         // are automatically removed when the widget
         // is destroyed.
-        node.on.data('MyEvent', function() { ... });
+        node.on.data('MyEvent', function() {
+          // Do something.
+        });
     };
 
     // Overwrites some default methods, for example
