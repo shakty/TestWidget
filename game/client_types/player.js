@@ -41,17 +41,63 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
         // this.debugInfo = node.widgets.append('DebugInfo', header)
     });
 
-    stager.extendStep('Bomb', {
-        frame: 'end.htm',
-        cb: function() {
-          var root = W.getElementById('container');
-          // Integrating a custom widget.
-          var options = {};
-          var customWidget = new BombRisk(options);
-          node.widgets.append(customWidget, root);
-        }
+
+    stager.extendStep('Sliders', {
+        donebutton: true,
+        frame: 'instructions.htm',
+        /*widget: {
+            name: 'BombRisk',
+            root: "container",
+            options: {
+
+            }
+        }*/
+        cb: function(){
+          var root = document.body;
+          var slider = node.widgets.append('Slider', root, {
+            id: 'myslider',
+            initialValue: 25,
+            correctValue: 89,
+            displayValue: false,
+            mainText: 'Move the slider to position 89',
+            hint: 'Be precise!',
+            required: true,
+            onmove: function(value, diff) {
+              console.log('Slider moved to ' + value + ' from ' + (value - diff));
+            }
+          });
+
+// Replacing the default texts: numeric value is replaced with a label.
+          var slider2 = node.widgets.append('Slider', root, {
+            id: 'myslider2',
+            min: 1,
+            max: 7,
+            mainText: 'How do you feel?',
+            texts: {
+              currentValue: function(widget, value) {
+                let mood = [
+                  'Terrible!', 'Bad', 'Could be better',
+                  'Normal',
+                  'Not bad', 'Good', 'Great!'
+                ];
+                return mood[(value-1)];
+              }
+            }
+          });
+      }
     });
 
+    stager.extendStep('Bomb', {
+        donebutton: true,
+        frame: 'end.htm',
+        widget: {
+            name: 'BombRisk',
+            root: "container",
+            options: {
+              scale:4
+            }
+        }
+    });
 
     stager.extendStep('end', {
         donebutton: false,
