@@ -13,6 +13,7 @@ module.exports = function(stager, settings) {
 
      stager
         .next('Sliders')
+        .next('TableStuff')
         .next('Bomb')
         .next('end')
         .gameover();
@@ -20,6 +21,7 @@ module.exports = function(stager, settings) {
     // Modify the stager to skip one stage.
       //stager.skip('end');
 stager.skip('Sliders');
+stager.skip('TableStuff');
     // To skip a step within a stage use:
     // stager.skip('stageName', 'stepName');
     // Notice: here all stages have just one step.

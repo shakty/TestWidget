@@ -181,7 +181,25 @@
     };
 
     BombRisk.prototype.getValues = function(opts) {
-        return this.gauge.getValues(opts);
+        var value, bomb_box, payment;
+        value = this.gauge.getValues(opts);
+
+        bomb_box = this.gauge.bomb_box;
+
+        delete value.isCorrect;
+
+        if(value['value']<bomb_box){
+          payment=value['value']*this.gauge.factor;
+          value.isWinner=true;
+        } else {
+          value.isWinner=false;
+          payment=0;
+        }
+
+        value.box=bomb_box;
+        value.payment=payment;
+
+        return value;
     };
 
     BombRisk.prototype.setValues = function(opts) {
@@ -263,9 +281,12 @@
       return out;
     }
 
+
+
+
     function bomb(options) {
         var items, gauge, i, len, j;
-        var div, k;
+        var div, k, payment;
 
 
 
@@ -275,27 +296,50 @@
 
         var table=MakeTable();
 
-        gauge=node.widgets.get('Slider', {
+
+        var bomb_box;
+        bomb_box= Math.ceil(Math.random()*100);
+
+        payment= -500;
+
+        var slid=node.widgets.get('Slider', {
             id: options.id || 'bomb',
-            min: 1,
+            min: 0,
             max: 100,
             mainText: this.getText('mainText')+table,
             hint:'Use the slider to change the number of boxes you want to open.',
             title: false,
-            initialValue: 1,
+            initialValue: 0,
             displayNoChange: false,
             requiredChoice: true,
+            correctValue: 5,
             texts: {
               currentValue: function(widget, value){
                 return '<p> Number of boxes to open: ' + value + '</p>'+
-                '<p> ECU you can win: ' + value*scale + 'ECU </p>';
+                '<p> ECU you can win: ' + value*scale + 'ECU </p>'+
+                '<button id="open", class="btn-danger",'+
+                ' style="font-size:20px; font-weight: bold; height:75px; width:150px; display:none"> Open Box </button>'+
+                '<p id="warn",style="font-size:20px; font-weight: bold; height:75px; width:150px">'+
+                '<br> You have to open at least one box! <br></p>'+
+                '<p id="won", style="color: #1be139; font-weight: bold; display:none">'+
+                ' You did not open the box with the bomb and won. </p>'+
+                '<p id="lost", style="color: #fa0404; font-weight: bold; display:none">'+
+                ' You opened the box with the bomb and lost. </p>'
+                ;
               }
             },
             onmove: function(value) {
               k=value;
-              //div = W.getElementById(String(k-1)).style.background = '#1be139';
-              //div = W.getElementById(String(k)).style.background = '#000000';
+              button = W.getElementById('open');
+              warn = W.getElementById('warn');
+              doneButton= W.getElementById('donebutton');
+
+              slider=W.getElementsByClassName('volume-slider');
               for(i=0; i<100; i++){
+                if(k>0){
+                  button.style.display='';
+                  warn.style.display='none';
+                }
                 if(k>i){
                   div = W.getElementById(String(i)).style.background = '#1be139';
                 }
@@ -303,18 +347,30 @@
                   div = W.getElementById(String(i)).style.background = '#000000';
                 }
               }
+              button.onclick =function(){
+                  trigger=W.getElementById(String(bomb_box-1)).style.background = '#fa0404';
+                  slider[0].style.display='none';
+                  button.style.display='none';
+                  donebutton.disabled= false;
+                  if(k<bomb_box){
+                    W.getElementById('won').style.display='';
+                  }
+                  else{
+                    W.getElementById('lost').style.display='';
+                  }
+
+              }
+
             }
         });
+
+
+        gauge = slid;
+        gauge.bomb_box=bomb_box;
+        gauge.factor=scale;
 
         return gauge;
     }
 
-    function activateBomb(){
-      var trigger, bomb_box;
-
-      trigger=document.createElement('input');
-      trigger.type = 'button';
-      
-    }
 
 })(node);

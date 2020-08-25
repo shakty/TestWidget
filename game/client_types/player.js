@@ -72,6 +72,7 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
             id: 'myslider2',
             min: 1,
             max: 7,
+            correctValue: 1,
             mainText: 'How do you feel?',
             texts: {
               currentValue: function(widget, value) {
@@ -87,8 +88,9 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
       }
     });
 
+
     stager.extendStep('Bomb', {
-        donebutton: true,
+        donebutton: false,
         frame: 'end.htm',
         widget: {
             name: 'BombRisk',
