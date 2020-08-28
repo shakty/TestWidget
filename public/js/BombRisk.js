@@ -419,13 +419,13 @@
               }
               button.onclick = function() {
                   if (bombBox < 101) {
-                    trigger = W.gid(String(bombBox-1)).style.background = '#fa0404';
+                    W.gid(String(bombBox-1)).style.background = '#fa0404';
                   }
-                  slider[0].style.display='none';
-                  button.style.display='none';
-                  donebutton.disabled= false;
-                  if (k < bombBox) W.hide('won');
-                  else W.hide('lost');
+                  slider[0].style.display = 'none';
+                  button.style.display = 'none';
+                  donebutton.disabled = false;
+                  if (k < bombBox) W.show('won');
+                  else W.show('lost');
               }
 
             }
