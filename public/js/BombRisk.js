@@ -151,14 +151,15 @@
             this.mainText = opts.mainText;
         }
         if (opts.withPrize) {
-            if ('logical' !== typeof opts.withPrize) {
-                throw new TypeError('BombRisk.init: withPrize must be logical ' +
+            if ('boolean' !== typeof opts.withPrize) {
+                throw new TypeError('BombRisk.init: withPrize must be boolean ' +
                                     'or undefined. Found: ' + opts.withPrize);
             }
             this.withPrize = opts.withPrize;
         }
         // Call method.
         gauge = this.methods[this.method].call(this, opts);
+
         // Check properties.
         checkGauge(this.method, gauge);
         // Approved.
@@ -275,7 +276,7 @@
     // ## Available methods.
 
 
-    function MakeBoxLine(j) {
+    function makeBoxLine(j) {
       var i, out, id;
       out = '<tr>';
 
@@ -296,12 +297,12 @@
       return out;
     }
 
-    function MakeTable() {
+    function makeTable() {
       var j, out, k;
       out = '<table style="width:60%; margin-left:20%; margin-right:20%">';
       //k=l;
       for (j = 0; j < 10; j++) {
-        out = out + MakeBoxLine(j);
+        out = out + makeBoxLine(j);
         if (j === 9) this.out = this.out + '</table><br>';
       }
       return out;
@@ -325,7 +326,7 @@
         else hider = '<p>';
 
 
-        table = MakeTable();
+        table = makeTable();
 
         resultMessages = {
           mainText: options.mainText || this.getText('mainText'),
@@ -383,12 +384,9 @@
                   button.style.display='';
                   warn.style.display='none';
                 }
-                if (k > i) {
-                  div = W.gid(String(i)).style.background = '#1be139';
-                }
-                else {
-                  div = W.gid(String(i)).style.background = '#000000';
-                }
+                div = W.gid(String(i));
+                if (k > i) div.style.background = '#1be139';
+                else div.style.background = '#000000';
               }
               button.onclick = function() {
                   trigger = W.gid(String(bombBox-1)).style.background = '#fa0404';
