@@ -20,28 +20,37 @@
     BombRisk.title = 'Bomb Risk';
     BombRisk.className = 'bombrisk';
 
-    BombRisk.texts.mainText = 'Below you see 100 black boxes. '+
-      'All boxes contain a prize.'+
-      'You have to decide how many boxes you want to open. ' +
-      'You will get the sum of all prizes that were in the boxes you opened. '+
-      '<strong>However, in one of these boxes there is a bomb.</strong> ' +
-      'If you open the box with the bomb, ' +
-      'you get nothing. <br>'+
-      '<strong> How many boxes do you want to open?</strong><br>';
+    BombRisk.texts = {
 
- //
+        mainText:
+            'Below you see 100 black boxes. '+
+            'All boxes contain a prize.'+
+            'You have to decide how many boxes you want to open. You will ' +
+            'the sum of all prizes that were in the boxes you opened. ' +
+            '<strong>However, in one of these boxes there is a bomb.' +
+            '</strong> If you open the box with the bomb, you get nothing.' +
+            '<br><strong> How many boxes do you want to open?</strong><br>',
 
+        hint:
+            'Use the slider to change the number of boxes you want to open.',
 
-    BombRisk.texts.hint = 'Use the slider to change the number of boxes you want to open.';
-    BombRisk.texts.Prize = 'Each box contains: '
-    BombRisk.texts.currentValue = ' Number of boxes to open: ';
-    BombRisk.texts.currentPrize = ' You can win: ';
-    BombRisk.texts.currency = 'ECU';
-    BombRisk.texts.openButton = 'Open Boxes';
-    BombRisk.texts.warning = 'You have to open at least one box!';
-    BombRisk.texts.win = 'You did not open the box with the bomb and won.';
-    BombRisk.texts.lose = 'You opened the box with the bomb and lost.';
+        Prize: 'Each box contains: ',
 
+        currentValue: ' Number of boxes to open: ',
+
+        currentPrize: ' You can win: ',
+
+        currency: 'ECU',
+
+        openButton: 'Open Boxes',
+
+        warning: 'You have to open at least one box!',
+
+        win: 'You did not open the box with the bomb and won.',
+
+        lose: 'You opened the box with the bomb and lost.'
+
+    };
 
     // ## Dependencies
     BombRisk.dependencies = {
