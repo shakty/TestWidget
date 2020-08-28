@@ -281,12 +281,7 @@
       out = '<tr>';
 
       for (i = 0; i < 10; i++) {
-        if (j > 0) {
-          id = String(j) + String(i);
-        }
-        else {
-          id = String(i);
-        }
+        id = j > 0 ? String(j) + String(i) : i;
         out = out + '<td>' +
             '<div class ="square" id="' + id +
             '" style="height: 50px;  width: 50px; background: black">' +
