@@ -218,16 +218,17 @@
 
         // delete value.isCorrect;
 
-        if(value['value']<bombBox){
-          payment=value['value']*this.gauge.factor;
-          value.isWinner=true;
-        } else {
-          value.isWinner=false;
-          payment=0;
+        if (value['value'] < bombBox) {
+          payment = value['value'] * this.gauge.factor;
+          value.isWinner = true;
+        }
+        else {
+          value.isWinner = false;
+          payment = 0;
         }
 
-        value.box=bombBox;
-        value.payment=payment;
+        value.box = bombBox;
+        value.payment = payment;
 
         return value;
     };
@@ -276,50 +277,40 @@
 
     function MakeBoxLine(j) {
       var i, out, id;
-      out='<tr>';
+      out = '<tr>';
 
-      for(i=0; i < 10; i++){
-        if(j>0){
-          id= String(j)+String(i);
+      for (i = 0; i < 10; i++) {
+        if (j > 0) {
+          id = String(j) + String(i);
         }
-        else{
-          id=String(i);
+        else {
+          id = String(i);
         }
-        out=out+'<td>'+
-            '<div class="square" id="'+id+
-            '" style="height: 50px;  width: 50px; background: black">'+
+        out = out + '<td>' +
+            '<div class ="square" id="' + id +
+            '" style="height: 50px;  width: 50px; background: black">' +
             '</td>';
 
-        if(i===9){
-          this.out=this.out+'</tr>';
-        }
+        if (i === 9) this.out = this.out + '</tr>';
       }
       return out;
     }
 
-    function MakeTable(){
+    function MakeTable() {
       var j, out, k;
-      out= '<table style="width:60%; margin-left:20%; margin-right:20%">';
+      out = '<table style="width:60%; margin-left:20%; margin-right:20%">';
       //k=l;
-      for(j=0; j < 10; j++){
-        out=out+MakeBoxLine(j);
-
-        if(j===9){
-          this.out=this.out+'</table>'+'<br>';
-        }
+      for (j = 0; j < 10; j++) {
+        out = out + MakeBoxLine(j);
+        if (j === 9) this.out = this.out + '</table><br>';
       }
       return out;
     }
-
-
-
 
     function bomb(options) {
         var gauge, i, len, j;
         var div, k, payment;
         var table, bombBox, resultMessages, hider;
-
-
 
         len = 10;
 
@@ -328,20 +319,15 @@
 
         withPrize = options.withPrize;
 
-        if(withPrize===undefined){withPrize=true;}
+        if (withPrize === undefined) withPrize=true;
+
+        if (withPrize === false) hider = '<p style="display: none">';
+        else hider = '<p>';
 
 
+        table = MakeTable();
 
-        if(withPrize===false){
-          hider='<p style="display: none">';
-        }
-        if(withPrize===true){
-          hider='<p>';
-        }
-
-        table=MakeTable();
-
-        resultMessages={
+        resultMessages = {
           mainText: options.mainText || this.getText('mainText'),
           hint: options.hint || this.getText('hint'),
           Prize: options.PrizeDescription || this.getText('Prize'),
@@ -354,15 +340,15 @@
         };
 
         bombBox;
-        bombBox= Math.ceil(Math.random()*100);
+        bombBox = Math.ceil(Math.random()*100);
 
-        payment= -500;
+        payment = -500;
 
-        var slid=node.widgets.get('Slider', {
+        var slid = node.widgets.get('Slider', {
             id: options.id || 'bomb',
             min: 0,
             max: 100,
-            mainText: resultMessages.mainText+table,
+            mainText: resultMessages.mainText + table,
             hint: resultMessages.hint,
             title: false,
             initialValue: 0,
@@ -370,7 +356,7 @@
             requiredChoice: true,
             correctValue: 5,
             texts: {
-              currentValue: function(widget, value){
+              currentValue: function(widget, value) {
                 return '<p>' +resultMessages.currentValue+ value + '</p>'+
                 hider+ resultMessages.Prize+ scale + currency + '</p>'+
                 hider+ resultMessages.currentPrize + value*scale + currency+'</p>' +
@@ -386,34 +372,34 @@
               }
             },
             onmove: function(value) {
-              k=value;
-              button = W.getElementById('open');
-              warn = W.getElementById('warn');
-              doneButton= W.getElementById('donebutton');
+              k = value;
+              button = W.gid('open');
+              warn = W.gid('warn');
+              doneButton = W.gid('donebutton');
 
-              slider=W.getElementsByClassName('volume-slider');
-              for(i=0; i<100; i++){
-                if(k>0){
+              slider = W.getElementsByClassName('volume-slider');
+              for (i = 0; i < 100; i++) {
+                if (k > 0) {
                   button.style.display='';
                   warn.style.display='none';
                 }
-                if(k>i){
-                  div = W.getElementById(String(i)).style.background = '#1be139';
+                if (k > i) {
+                  div = W.gid(String(i)).style.background = '#1be139';
                 }
-                else{
-                  div = W.getElementById(String(i)).style.background = '#000000';
+                else {
+                  div = W.gid(String(i)).style.background = '#000000';
                 }
               }
-              button.onclick =function(){
-                  trigger=W.getElementById(String(bombBox-1)).style.background = '#fa0404';
-                  slider[0].style.display='none';
-                  button.style.display='none';
-                  donebutton.disabled= false;
-                  if(k<bombBox){
-                    W.getElementById('won').style.display='';
+              button.onclick = function() {
+                  trigger = W.gid(String(bombBox-1)).style.background = '#fa0404';
+                  slider[0].style.display = 'none';
+                  button.style.display = 'none';
+                  donebutton.disabled = false;
+                  if (k < bombBox) {
+                    W.gid('won').style.display = '';
                   }
-                  else{
-                    W.getElementById('lost').style.display='';
+                  else {
+                    W.gid('lost').style.display = '';
                   }
 
               }
@@ -421,13 +407,11 @@
             }
         });
 
-
         gauge = slid;
-        gauge.bombBox=bombBox;
-        gauge.factor=scale;
+        gauge.bombBox = bombBox;
+        gauge.factor = scale;
 
         return gauge;
     }
-
 
 })(node);
