@@ -157,6 +157,27 @@
             }
             this.withPrize = opts.withPrize;
         }
+        if (opts.probabilityBomb) {
+          if ('number' !== typeof opts.probabilityBomb) {
+              throw new TypeError('BombRisk.init: probabilityBomb must be number ' +
+                                  'or undefined. Found: ' + opts.probabilityBomb);
+          }
+          this.probabilityBomb = opts.probabilityBomb;
+        }
+        if (opts.maxBoxes) {
+          if ('number' !== typeof opts.maxBoxes) {
+              throw new TypeError('BombRisk.init: maxBoxes must be number ' +
+                                  'or undefined. Found: ' + opts.maxBoxes);
+          }
+          this.maxBoxes = opts.maxBoxes;
+        }
+        if (opts.maxBoxes) {
+          if (opts.maxBoxes>100) {
+              throw new TypeError('BombRisk.init: maxBoxes must be <101 ' +
+                                  'or undefined. Found: ' + opts.maxBoxes);
+          }
+          this.maxBoxes = opts.maxBoxes;
+        }
         // Call method.
         gauge = this.methods[this.method].call(this, opts);
 
@@ -315,7 +336,10 @@
 
         withPrize = options.withPrize;
 
-        if (withPrize === undefined) withPrize=true;
+        if(withPrize===undefined) withPrize=true;
+
+        prBomb= options.probabilityBomb || 1;
+
 
         if (withPrize === false) hider = '<p style="display: none">';
         else hider = '<p>';
@@ -335,16 +359,21 @@
           lose: options.loseText || this.getText('lose')
         };
 
-        bombBox;
-        bombBox = Math.ceil(Math.random()*100);
+
+        if(Math.random()<=prBomb){
+          bomb_box= Math.ceil(Math.random()*100);
+        } else {
+          bomb_box=101;
+        }
+
 
         payment = -500;
 
         var slid = node.widgets.get('Slider', {
             id: options.id || 'bomb',
             min: 0,
-            max: 100,
-            mainText: resultMessages.mainText + table,
+            max: options.maxBoxes || 99,
+            mainText: resultMessages.mainText+table,
             hint: resultMessages.hint,
             title: false,
             initialValue: 0,
@@ -383,13 +412,15 @@
                 if (k > i) div.style.background = '#1be139';
                 else div.style.background = '#000000';
               }
-              button.onclick = function() {
-                  trigger = W.gid(String(bombBox-1)).style.background = '#fa0404';
-                  slider[0].style.display = 'none';
-                  button.style.display = 'none';
-                  donebutton.disabled = false;
-                  if (k < bombBox) {
-                    W.gid('won').style.display = '';
+              button.onclick =function(){
+                  if(bomb_box<101){
+                    trigger=W.getElementById(String(bomb_box-1)).style.background = '#fa0404';
+                  }
+                  slider[0].style.display='none';
+                  button.style.display='none';
+                  donebutton.disabled= false;
+                  if(k<bomb_box){
+                    W.getElementById('won').style.display='';
                   }
                   else {
                     W.gid('lost').style.display = '';
