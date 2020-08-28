@@ -335,13 +335,13 @@
         resultMessages={
           mainText: options.mainText || this.getText('mainText'),
           hint: options.hint || this.getText('hint'),
-          Prize: this.getText('Prize'),
-          currentValue: this.getText('currentValue'),
-          currentPrize: this.getText('currentPrize'),
-          openButton: options.button || this.getText('openButton') ,
-          warning: this.getText('warning'),
-          win: this.getText('win'),
-          lose: this.getText('lose')
+          Prize: options.PrizeDescription || this.getText('Prize'),
+          currentValue: options.currentValueDescription || this.getText('currentValue'),
+          currentPrize: options.currentPrizeDescription || this.getText('currentPrize'),
+          openButton: options.buttonText || this.getText('openButton') ,
+          warning: options.warningText || this.getText('warning'),
+          win: options.winText || this.getText('win'),
+          lose: options.loseText || this.getText('lose')
         };
 
         bomb_box;
