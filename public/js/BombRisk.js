@@ -417,7 +417,7 @@
                 if (k > i) div.style.background = '#1be139';
                 else div.style.background = '#000000';
               }
-              button.onclick = function(){
+              button.onclick = function() {
                   if (bombBox < 101) {
                     trigger = W.gid(String(bombBox-1)).style.background = '#fa0404';
                   }
