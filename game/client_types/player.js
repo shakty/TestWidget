@@ -96,7 +96,9 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
             name: 'BombRisk',
             root: "container",
             options: {
-              scale:4
+              scale: 2,
+              currency: '$',
+              button: 'BOOOOM'
             }
         }
     });

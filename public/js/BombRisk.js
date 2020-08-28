@@ -21,13 +21,27 @@
     BombRisk.className = 'bombrisk';
 
     BombRisk.texts.mainText = 'Below you see 100 black boxes. '+
-      '<strong>In one of these boxes there is a bomb.</strong> ' +
-        'You have to decide how many boxes you want to open.' +
-        ' <strong>Each box contains 1 ECU</strong>. ' +
-        'You will get the sum of all ECU that were in the boxes you opened. ' +
-        'However, if you <strong>open the box with the bomb, ' +
-        'you get nothing</strong>. '+
-        '<strong> How many boxes do you want to open?</strong>';
+      'All boxes contain a prize.'+
+      'You have to decide how many boxes you want to open. ' +
+      'You will get the sum of all prizes that were in the boxes you opened. '+
+      '<strong>However, in one of these boxes there is a bomb.</strong> ' +
+      'If you open the box with the bomb, ' +
+      'you get nothing. <br>'+
+      '<strong> How many boxes do you want to open?</strong><br>';
+
+ //
+
+
+    BombRisk.texts.hint = 'Use the slider to change the number of boxes you want to open.';
+    BombRisk.texts.Prize = 'Each box contains: '
+    BombRisk.texts.currentValue = ' Number of boxes to open: ';
+    BombRisk.texts.currentPrize = ' You can win: ';
+    BombRisk.texts.currency = 'ECU';
+    BombRisk.texts.openButton = 'Open Boxes';
+    BombRisk.texts.warning = 'You have to open at least one box!';
+    BombRisk.texts.win = 'You did not open the box with the bomb and won.';
+    BombRisk.texts.lose = 'You opened the box with the bomb and lost.';
+
 
     // ## Dependencies
     BombRisk.dependencies = {
@@ -126,6 +140,13 @@
                                     'or undefined. Found: ' + opts.mainText);
             }
             this.mainText = opts.mainText;
+        }
+        if (opts.withPrize) {
+            if ('logical' !== typeof opts.withPrize) {
+                throw new TypeError('BombRisk.init: withPrize must be logical ' +
+                                    'or undefined. Found: ' + opts.withPrize);
+            }
+            this.withPrize = opts.withPrize;
         }
         // Call method.
         gauge = this.methods[this.method].call(this, opts);
@@ -285,19 +306,45 @@
 
 
     function bomb(options) {
-        var items, gauge, i, len, j;
+        var gauge, i, len, j;
         var div, k, payment;
+        var table, bomb_box, resultMessages, hider;
 
 
 
         len = 10;
 
         scale = options.scale || 1;
+        currency = options.currency || this.getText('currency');
 
-        var table=MakeTable();
+        withPrize = options.withPrize;
+
+        if(withPrize===undefined){withPrize=true;}
 
 
-        var bomb_box;
+
+        if(withPrize===false){
+          hider='<p style="display: none">';
+        }
+        if(withPrize===true){
+          hider='<p>';
+        }
+
+        table=MakeTable();
+
+        resultMessages={
+          mainText: options.mainText || this.getText('mainText'),
+          hint: options.hint || this.getText('hint'),
+          Prize: this.getText('Prize'),
+          currentValue: this.getText('currentValue'),
+          currentPrize: this.getText('currentPrize'),
+          openButton: options.button || this.getText('openButton') ,
+          warning: this.getText('warning'),
+          win: this.getText('win'),
+          lose: this.getText('lose')
+        };
+
+        bomb_box;
         bomb_box= Math.ceil(Math.random()*100);
 
         payment= -500;
@@ -306,8 +353,8 @@
             id: options.id || 'bomb',
             min: 0,
             max: 100,
-            mainText: this.getText('mainText')+table,
-            hint:'Use the slider to change the number of boxes you want to open.',
+            mainText: resultMessages.mainText+table,
+            hint: resultMessages.hint,
             title: false,
             initialValue: 0,
             displayNoChange: false,
@@ -315,16 +362,17 @@
             correctValue: 5,
             texts: {
               currentValue: function(widget, value){
-                return '<p> Number of boxes to open: ' + value + '</p>'+
-                '<p> ECU you can win: ' + value*scale + 'ECU </p>'+
-                '<button id="open", class="btn-danger",'+
-                ' style="font-size:20px; font-weight: bold; height:75px; width:150px; display:none"> Open Box </button>'+
+                return '<p>' +resultMessages.currentValue+ value + '</p>'+
+                hider+ resultMessages.Prize+ scale + currency + '</p>'+
+                hider+ resultMessages.currentPrize + value*scale + currency+'</p>' +
+                '<button id="open", class="btn-danger", style="font-size:20px; font-weight: bold; height:75px; width:150px; display:none">'+
+                resultMessages.openButton+'</button>'+
                 '<p id="warn",style="font-size:20px; font-weight: bold; height:75px; width:150px">'+
-                '<br> You have to open at least one box! <br></p>'+
+                '<br>'+resultMessages.warning+'<br></p>'+
                 '<p id="won", style="color: #1be139; font-weight: bold; display:none">'+
-                ' You did not open the box with the bomb and won. </p>'+
+                resultMessages.win+' </p>'+
                 '<p id="lost", style="color: #fa0404; font-weight: bold; display:none">'+
-                ' You opened the box with the bomb and lost. </p>'
+                resultMessages.lose+'</p>'
                 ;
               }
             },
