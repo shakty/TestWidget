@@ -174,7 +174,7 @@
           this.maxBoxes = opts.maxBoxes;
         }
         if (opts.maxBoxes) {
-          if (opts.maxBoxes>100) {
+          if (opts.maxBoxes > 100) {
               throw new TypeError('BombRisk.init: maxBoxes must be <101 ' +
                                   'or undefined. Found: ' + opts.maxBoxes);
           }
@@ -338,9 +338,9 @@
 
         withPrize = options.withPrize;
 
-        if(withPrize===undefined) withPrize=true;
+        if (withPrize === undefined) withPrize = true;
 
-        prBomb= options.probabilityBomb || 1;
+        prBomb = options.probabilityBomb || 1;
 
 
         if (withPrize === false) hider = '<p style="display: none">';
@@ -362,10 +362,11 @@
         };
 
 
-        if(Math.random()<=prBomb){
-          bomb_box= Math.ceil(Math.random()*100);
-        } else {
-          bomb_box=101;
+        if (Math.random() <= prBomb) {
+          bombBox = Math.ceil(Math.random()*100);
+        }
+        else {
+          bombBox = 101;
         }
 
 
@@ -375,7 +376,7 @@
             id: options.id || 'bomb',
             min: 0,
             max: options.maxBoxes || 99,
-            mainText: resultMessages.mainText+table,
+            mainText: resultMessages.mainText + table,
             hint: resultMessages.hint,
             title: false,
             initialValue: 0,
@@ -409,27 +410,22 @@
               slider = W.getElementsByClassName('volume-slider');
               for (i = 0; i < 100; i++) {
                 if (k > 0) {
-                  button.style.display='';
-                  warn.style.display='none';
+                  button.style.display = '';
+                  warn.style.display = 'none';
                 }
                 div = W.gid(String(i));
                 if (k > i) div.style.background = '#1be139';
                 else div.style.background = '#000000';
               }
-              button.onclick =function(){
-                  if(bomb_box<101){
-                    trigger=W.getElementById(String(bomb_box-1)).style.background = '#fa0404';
+              button.onclick = function(){
+                  if (bombBox < 101) {
+                    trigger = W.gid(String(bombBox-1)).style.background = '#fa0404';
                   }
                   slider[0].style.display='none';
                   button.style.display='none';
                   donebutton.disabled= false;
-                  if(k<bomb_box){
-                    W.getElementById('won').style.display='';
-                  }
-                  else {
-                    W.gid('lost').style.display = '';
-                  }
-
+                  if (k < bombBox) W.hide('won');
+                  else W.hide('lost');
               }
 
             }
