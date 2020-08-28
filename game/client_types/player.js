@@ -98,7 +98,9 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
             options: {
               scale: 2,
               currency: '$',
-              button: 'BOOOOM'
+              buttonText: 'BOOOOM',
+              maxBoxes: 100,
+              probabilityBomb: 0.5
             }
         }
     });
