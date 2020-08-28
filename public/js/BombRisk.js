@@ -48,7 +48,9 @@
 
         win: 'You did not open the box with the bomb and won.',
 
-        lose: 'You opened the box with the bomb and lost.'
+        lose: 'You opened the box with the bomb and lost.',
+
+        sliderValue: '123'
 
     };
 
@@ -352,19 +354,21 @@
             requiredChoice: true,
             correctValue: 5,
             texts: {
+              // currentValue: this.getText('sliderValue')
               currentValue: function(widget, value) {
-                return '<p>' +resultMessages.currentValue+ value + '</p>'+
-                hider+ resultMessages.Prize+ scale + currency + '</p>'+
-                hider+ resultMessages.currentPrize + value*scale + currency+'</p>' +
-                '<button id="open", class="btn-danger", style="font-size:20px; font-weight: bold; height:75px; width:150px; display:none">'+
-                resultMessages.openButton+'</button>'+
-                '<p id="warn",style="font-size:20px; font-weight: bold; height:75px; width:150px">'+
-                '<br>'+resultMessages.warning+'<br></p>'+
-                '<p id="won", style="color: #1be139; font-weight: bold; display:none">'+
-                resultMessages.win+' </p>'+
-                '<p id="lost", style="color: #fa0404; font-weight: bold; display:none">'+
-                resultMessages.lose+'</p>'
-                ;
+                return '<p>' + resultMessages.currentValue + value + '</p>' +
+                    hider + resultMessages.Prize + scale + currency + '</p>' +
+                    hider + resultMessages.currentPrize + value*scale + currency + '</p>' +
+                    '<button id="open" class="btn-danger" style="font-size:20px; ' +
+                    'font-weight: bold; height:75px; width:150px; display:none">' +
+                    resultMessages.openButton+'</button>'+
+                    '<p id="warn" style="font-size:20px; font-weight: bold; ' +
+                    'height:75px; width:150px">' +
+                    '<br>'+ resultMessages.warning + '<br></p>'+
+                    '<p id="won" style="color: #1be139; font-weight: bold; ' +
+                    'display:none">' + resultMessages.win + ' </p>'+
+                    '<p id="lost" style="color: #fa0404; font-weight: bold; ' +
+                    'display:none">' + resultMessages.lose + '</p>';
               }
             },
             onmove: function(value) {
