@@ -148,6 +148,27 @@
             }
             this.withPrize = opts.withPrize;
         }
+        if (opts.probabilityBomb) {
+          if ('number' !== typeof opts.probabilityBomb) {
+              throw new TypeError('BombRisk.init: probabilityBomb must be number ' +
+                                  'or undefined. Found: ' + opts.probabilityBomb);
+          }
+          this.probabilityBomb = opts.probabilityBomb;
+        }
+        if (opts.maxBoxes) {
+          if ('number' !== typeof opts.maxBoxes) {
+              throw new TypeError('BombRisk.init: maxBoxes must be number ' +
+                                  'or undefined. Found: ' + opts.maxBoxes);
+          }
+          this.maxBoxes = opts.maxBoxes;
+        }
+        if (opts.maxBoxes) {
+          if (opts.maxBoxes>100) {
+              throw new TypeError('BombRisk.init: maxBoxes must be <101 ' +
+                                  'or undefined. Found: ' + opts.maxBoxes);
+          }
+          this.maxBoxes = opts.maxBoxes;
+        }
         // Call method.
         gauge = this.methods[this.method].call(this, opts);
         // Check properties.
@@ -321,6 +342,8 @@
 
         if(withPrize===undefined){withPrize=true;}
 
+        prBomb= options.probabilityBomb || 1;
+
 
 
         if(withPrize===false){
@@ -344,15 +367,18 @@
           lose: options.loseText || this.getText('lose')
         };
 
-        bomb_box;
-        bomb_box= Math.ceil(Math.random()*100);
+        if(Math.random()<=prBomb){
+          bomb_box= Math.ceil(Math.random()*100);
+        } else {
+          bomb_box=101;
+        }
 
         payment= -500;
 
         var slid=node.widgets.get('Slider', {
             id: options.id || 'bomb',
             min: 0,
-            max: 100,
+            max: options.maxBoxes || 99,
             mainText: resultMessages.mainText+table,
             hint: resultMessages.hint,
             title: false,
@@ -396,7 +422,9 @@
                 }
               }
               button.onclick =function(){
-                  trigger=W.getElementById(String(bomb_box-1)).style.background = '#fa0404';
+                  if(bomb_box<101){
+                    trigger=W.getElementById(String(bomb_box-1)).style.background = '#fa0404';
+                  }
                   slider[0].style.display='none';
                   button.style.display='none';
                   donebutton.disabled= false;
